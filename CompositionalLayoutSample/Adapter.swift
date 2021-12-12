@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol AdapterDataSource: AnyObject {
+    func adapter(_ adapter: Adapter, sectionControllerFor object: SectionModel) -> SectionController
+}
+
 class Adapter: NSObject {
     weak var collectionView: UICollectionView? {
         willSet {
@@ -42,12 +46,14 @@ class Adapter: NSObject {
                 return view
             }
 
-            let sectionProvider = { [weak dataSource] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-                let sectionIdentifier = Self.sectionIdentifier(
+            let sectionProvider = { [weak dataSource, weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+                guard let sectionIdentifier = Self.sectionIdentifier(
                     dataSource: dataSource,
                     sectionIndex: sectionIndex
-                )
-                return sectionIdentifier?.layoutSection(layoutEnvironment: layoutEnvironment)
+                ) else { return nil }
+                
+                let controller = self?.sectionController(for: sectionIdentifier)
+                return controller?.layoutSection(layoutEnvironment: layoutEnvironment)
             }
 
             newCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
@@ -55,7 +61,10 @@ class Adapter: NSObject {
         }
     }
 
+    weak var dataSource: AdapterDataSource?
+
     private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
+    private var sectionControllerMap = [Int: SectionController]()
 
     // MARK: - Public
 
@@ -67,6 +76,11 @@ class Adapter: NSObject {
         guard let dataSource = self.collectionViewDataSource else {
             fatalError("Need a set of UICollectionView")
         }
+
+        self.sectionControllerMap = self.sectionControllerMap
+            .filter { element in
+                snapshot.sectionIdentifiers.contains { element.key == $0.hashValue }
+            }
 
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences, completion: completion)
     }
@@ -80,6 +94,20 @@ class Adapter: NSObject {
     }
 
     // MARK: - Private
+
+    private func sectionController(for sectionModel: SectionModel) -> SectionController {
+        if let controller = self.sectionControllerMap[sectionModel.hashValue] {
+            return controller
+        }
+
+        guard let dataSource = self.dataSource else {
+            fatalError("Need a set of AdapterDataSource")
+        }
+
+        let controller = dataSource.adapter(self, sectionControllerFor: sectionModel)
+        self.sectionControllerMap[sectionModel.hashValue] = controller
+        return controller
+    }
 
     private static func sectionIdentifier(dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?, sectionIndex: Int) -> SectionModel? {
         if #available(iOS 15.0, *) {

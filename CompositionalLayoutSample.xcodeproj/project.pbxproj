@@ -14,6 +14,9 @@
 		9E1008A22765FDE200B4E72C /* BannerSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008A12765FDE200B4E72C /* BannerSectionModel.swift */; };
 		9E1008A42765FDFA00B4E72C /* SquareSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008A32765FDFA00B4E72C /* SquareSectionModel.swift */; };
 		9E1008A62766015800B4E72C /* Adapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008A52766015800B4E72C /* Adapter.swift */; };
+		9E1008A827663B1A00B4E72C /* SectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008A727663B1A00B4E72C /* SectionController.swift */; };
+		9E1008AA27663C1500B4E72C /* BannerSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008A927663C1500B4E72C /* BannerSectionController.swift */; };
+		9E1008AC27663C4500B4E72C /* SquareSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E1008AB27663C4500B4E72C /* SquareSectionController.swift */; };
 		9E19550727648CDD00B76E8A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E19550627648CDD00B76E8A /* AppDelegate.swift */; };
 		9E19550927648CDD00B76E8A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E19550827648CDD00B76E8A /* SceneDelegate.swift */; };
 		9E19550B27648CDD00B76E8A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E19550A27648CDD00B76E8A /* ViewController.swift */; };
@@ -32,6 +35,9 @@
 		9E1008A12765FDE200B4E72C /* BannerSectionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BannerSectionModel.swift; sourceTree = "<group>"; };
 		9E1008A32765FDFA00B4E72C /* SquareSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareSectionModel.swift; sourceTree = "<group>"; };
 		9E1008A52766015800B4E72C /* Adapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Adapter.swift; sourceTree = "<group>"; };
+		9E1008A727663B1A00B4E72C /* SectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionController.swift; sourceTree = "<group>"; };
+		9E1008A927663C1500B4E72C /* BannerSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerSectionController.swift; sourceTree = "<group>"; };
+		9E1008AB27663C4500B4E72C /* SquareSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareSectionController.swift; sourceTree = "<group>"; };
 		9E19550327648CDD00B76E8A /* CompositionalLayoutSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CompositionalLayoutSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E19550627648CDD00B76E8A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E19550827648CDD00B76E8A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +96,9 @@
 				9E1008A32765FDFA00B4E72C /* SquareSectionModel.swift */,
 				9E10089D2765F7B900B4E72C /* SquareCellModel.swift */,
 				9E1008A52766015800B4E72C /* Adapter.swift */,
+				9E1008A727663B1A00B4E72C /* SectionController.swift */,
+				9E1008A927663C1500B4E72C /* BannerSectionController.swift */,
+				9E1008AB27663C4500B4E72C /* SquareSectionController.swift */,
 			);
 			path = CompositionalLayoutSample;
 			sourceTree = "<group>";
@@ -166,9 +175,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E19551B2764935600B76E8A /* SquareCell.swift in Sources */,
+				9E1008A827663B1A00B4E72C /* SectionController.swift in Sources */,
 				9E1008A62766015800B4E72C /* Adapter.swift in Sources */,
 				9E19550B27648CDD00B76E8A /* ViewController.swift in Sources */,
 				9E1008A02765FDB500B4E72C /* SectionModel.swift in Sources */,
+				9E1008AA27663C1500B4E72C /* BannerSectionController.swift in Sources */,
 				9E1008A42765FDFA00B4E72C /* SquareSectionModel.swift in Sources */,
 				9E10089E2765F7B900B4E72C /* SquareCellModel.swift in Sources */,
 				9E19551D2764CED600B76E8A /* BannerSupplementaryView.swift in Sources */,
@@ -176,6 +187,7 @@
 				9E19550727648CDD00B76E8A /* AppDelegate.swift in Sources */,
 				9E1008982765E9C700B4E72C /* BannerCellModel.swift in Sources */,
 				9E19550927648CDD00B76E8A /* SceneDelegate.swift in Sources */,
+				9E1008AC27663C4500B4E72C /* SquareSectionController.swift in Sources */,
 				9E1008A22765FDE200B4E72C /* BannerSectionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

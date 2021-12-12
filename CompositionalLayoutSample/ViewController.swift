@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         self.view.backgroundColor = .lightGray
 
         self.adapter.collectionView = self.collectionView
+        self.adapter.dataSource = self
 
         self.view.addSubview(self.collectionView)
         self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -49,6 +50,20 @@ class ViewController: UIViewController {
         snapshot.appendSections([SquareSectionModel()])
         snapshot.appendItems([SquareCellModel()])
         self.adapter.apply(snapshot)
+    }
+
+// MARK: - AdapterDataSource
+
+extension ViewController: AdapterDataSource {
+    func adapter(_ adapter: Adapter, sectionControllerFor object: SectionModel) -> SectionController {
+        switch object {
+        case is BannerSectionModel:
+            return BannerSectionController()
+        case is SquareSectionModel:
+            return SquareSectionController()
+        default:
+            fatalError("")
+        }
     }
 }
 
