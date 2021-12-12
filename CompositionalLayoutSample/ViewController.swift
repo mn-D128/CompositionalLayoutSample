@@ -10,19 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     private let collectionView: UICollectionView = {
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            switch sectionIndex {
-            case 0:
-                return ViewController.createBannerLayoutSection(layoutEnvironment: layoutEnvironment)
-            case 1:
-                return ViewController.createSquareLayoutSection(layoutEnvironment: layoutEnvironment)
-            default:
-                return nil
-            }
-        }
-
-        let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
-        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let view = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(
@@ -42,6 +30,18 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .lightGray
+
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            switch sectionIndex {
+            case 0:
+                return ViewController.createBannerLayoutSection(layoutEnvironment: layoutEnvironment)
+            case 1:
+                return ViewController.createSquareLayoutSection(layoutEnvironment: layoutEnvironment)
+            default:
+                return nil
+            }
+        }
+        self.collectionView.collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
 
         self.view.addSubview(self.collectionView)
         self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
