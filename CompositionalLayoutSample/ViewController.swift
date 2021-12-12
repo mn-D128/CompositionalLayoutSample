@@ -41,8 +41,6 @@ class ViewController: UIViewController {
         self.collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
         self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
-        self.collectionView.collectionViewLayout = self.adapter.collectionViewLayout
-        self.collectionView.dataSource = self.adapter.dataSource
         self.collectionView.delegate = self
         
         var snapshot = NSDiffableDataSourceSnapshot<SectionModel, CellModel>()

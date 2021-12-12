@@ -11,8 +11,8 @@ class Adapter: NSObject {
     weak var collectionView: UICollectionView? {
         willSet {
             guard let newCollectionView = newValue else {
+                self.collectionView?.dataSource = nil
                 self.dataSource = nil
-                self._collectionViewLayout = nil
                 return
             }
             
@@ -45,17 +45,10 @@ class Adapter: NSObject {
                 return sectionIdentifier?.layoutSection(layoutEnvironment: layoutEnvironment)
             }
 
-            self._collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+            newCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+            newCollectionView.dataSource = self.dataSource
         }
     }
 
     private(set) var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
-    private var _collectionViewLayout: UICollectionViewCompositionalLayout?
-    var collectionViewLayout: UICollectionViewCompositionalLayout {
-        guard let layout = self._collectionViewLayout else {
-            fatalError("")
-        }
-
-        return layout
-    }
 }
