@@ -8,6 +8,8 @@
 import Foundation
 
 class SquareCellModel: CellModel {
+    // MARK: - CellModel
+
     override var reuseCellIdentifier: String {
         String(describing: SquareCell.self.classForCoder())
     }

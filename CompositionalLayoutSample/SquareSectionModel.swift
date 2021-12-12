@@ -8,6 +8,8 @@
 import UIKit
 
 class SquareSectionModel: SectionModel {
+    // MARK: - SectionModel
+
     override func layoutSection(layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? {
         let columnCount: CGFloat = 2
         let rowSpacing: CGFloat = 10

@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 
 class BannerSectionModel: SectionModel {
+    // MARK: - SectionModel
+
     override func layoutSection(layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? {
         let edgeSpacing: CGFloat = 10
         let contentWidth = layoutEnvironment.container.contentSize.width
