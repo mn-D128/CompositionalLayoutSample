@@ -27,10 +27,12 @@ class Adapter: NSObject {
             self.dataSource = dataSource
 
             dataSource.supplementaryViewProvider = { (collectionView: UICollectionView, elementKind: String, indexPath: IndexPath) -> UICollectionReusableView? in
-                guard let sectionIdentifier = (collectionView.dataSource as? UICollectionViewDiffableDataSource<SectionModel, CellModel>)?.sectionIdentifier(for: indexPath.section),
-                      let reuseIdentifier = sectionIdentifier.reusableSupplementaryViewIdentifier(elementKind: elementKind) else {
-                    return nil
-                }
+                guard let sectionIdentifier = Self.sectionIdentifier(
+                    dataSource: collectionView.dataSource as? UICollectionViewDiffableDataSource<SectionModel, CellModel>,
+                    sectionIndex: indexPath.section
+                ) else { return nil }
+                      
+                guard let reuseIdentifier = sectionIdentifier.reusableSupplementaryViewIdentifier(elementKind: elementKind) else { return nil }
                 
                 let view = collectionView.dequeueReusableSupplementaryView(
                     ofKind: elementKind,
@@ -41,7 +43,10 @@ class Adapter: NSObject {
             }
 
             let sectionProvider = { [weak dataSource] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-                let sectionIdentifier = dataSource?.sectionIdentifier(for: sectionIndex)
+                let sectionIdentifier = Self.sectionIdentifier(
+                    dataSource: dataSource,
+                    sectionIndex: sectionIndex
+                )
                 return sectionIdentifier?.layoutSection(layoutEnvironment: layoutEnvironment)
             }
 
@@ -51,6 +56,8 @@ class Adapter: NSObject {
     }
 
     private var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
+
+    // MARK: - Public
 
     func apply(
         _ snapshot: NSDiffableDataSourceSnapshot<SectionModel, CellModel>,
@@ -70,5 +77,20 @@ class Adapter: NSObject {
         }
 
         return dataSource.snapshot()
+    }
+
+    // MARK: - Private
+
+    private static func sectionIdentifier(dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?, sectionIndex: Int) -> SectionModel? {
+        if #available(iOS 15.0, *) {
+            return dataSource?.sectionIdentifier(for: sectionIndex)
+        }
+
+        guard let sectionIdentifiers = dataSource?.snapshot().sectionIdentifiers,
+              sectionIdentifiers.indices.contains(sectionIndex) else {
+            return nil
+        }
+        
+        return sectionIdentifiers[sectionIndex]
     }
 }
