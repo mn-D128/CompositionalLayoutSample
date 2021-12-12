@@ -12,7 +12,7 @@ class Adapter: NSObject {
         willSet {
             guard let newCollectionView = newValue else {
                 self.collectionView?.dataSource = nil
-                self.dataSource = nil
+                self.collectionViewDataSource = nil
                 return
             }
             
@@ -24,7 +24,7 @@ class Adapter: NSObject {
                 }
             )
 
-            self.dataSource = dataSource
+            self.collectionViewDataSource = dataSource
 
             dataSource.supplementaryViewProvider = { (collectionView: UICollectionView, elementKind: String, indexPath: IndexPath) -> UICollectionReusableView? in
                 guard let sectionIdentifier = Self.sectionIdentifier(
@@ -51,11 +51,11 @@ class Adapter: NSObject {
             }
 
             newCollectionView.collectionViewLayout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
-            newCollectionView.dataSource = self.dataSource
+            newCollectionView.dataSource = self.collectionViewDataSource
         }
     }
 
-    private var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
+    private var collectionViewDataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
 
     // MARK: - Public
 
@@ -64,7 +64,7 @@ class Adapter: NSObject {
         animatingDifferences: Bool = true,
         completion: (() -> Void)? = nil
     ) {
-        guard let dataSource = self.dataSource else {
+        guard let dataSource = self.collectionViewDataSource else {
             fatalError("Need a set of UICollectionView")
         }
 
@@ -72,7 +72,7 @@ class Adapter: NSObject {
     }
 
     func snapshot() -> NSDiffableDataSourceSnapshot<SectionModel, CellModel> {
-        guard let dataSource = self.dataSource else {
+        guard let dataSource = self.collectionViewDataSource else {
             fatalError("Need a set of UICollectionView")
         }
 
