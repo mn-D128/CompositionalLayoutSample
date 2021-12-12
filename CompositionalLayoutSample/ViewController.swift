@@ -50,6 +50,7 @@ class ViewController: UIViewController {
         self.collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
 
         self.collectionView.dataSource = self
+        self.collectionView.delegate = self
     }
 
     // MARK: - Private
@@ -174,3 +175,7 @@ extension ViewController: UICollectionViewDataSource {
         }
     }
 }
+
+// MARK: - UICollectionViewDelegate
+
+extension ViewController: UICollectionViewDelegate {}
