@@ -50,5 +50,25 @@ class Adapter: NSObject {
         }
     }
 
-    private(set) var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
+    private var dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?
+
+    func apply(
+        _ snapshot: NSDiffableDataSourceSnapshot<SectionModel, CellModel>,
+        animatingDifferences: Bool = true,
+        completion: (() -> Void)? = nil
+    ) {
+        guard let dataSource = self.dataSource else {
+            fatalError("Need a set of UICollectionView")
+        }
+
+        dataSource.apply(snapshot, animatingDifferences: animatingDifferences, completion: completion)
+    }
+
+    func snapshot() -> NSDiffableDataSourceSnapshot<SectionModel, CellModel> {
+        guard let dataSource = self.dataSource else {
+            fatalError("Need a set of UICollectionView")
+        }
+
+        return dataSource.snapshot()
+    }
 }

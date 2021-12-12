@@ -48,7 +48,7 @@ class ViewController: UIViewController {
         snapshot.appendItems([BannerCellModel(), BannerCellModel()])
         snapshot.appendSections([SquareSectionModel()])
         snapshot.appendItems([SquareCellModel()])
-        self.adapter.dataSource?.apply(snapshot)
+        self.adapter.apply(snapshot)
     }
 }
 
