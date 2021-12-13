@@ -47,12 +47,7 @@ class Adapter: NSObject {
             }
 
             let sectionProvider = { [weak dataSource, weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-                guard let sectionIdentifier = Self.sectionIdentifier(
-                    dataSource: dataSource,
-                    sectionIndex: sectionIndex
-                ) else { return nil }
-                
-                let controller = self?.sectionController(for: sectionIdentifier)
+                let controller = self?.sectionController(at: sectionIndex, dataSource: dataSource)
                 return controller?.layoutSection(layoutEnvironment: layoutEnvironment)
             }
 
@@ -94,6 +89,15 @@ class Adapter: NSObject {
     }
 
     // MARK: - Private
+
+    private func sectionController(at sectionIndex: Int, dataSource: UICollectionViewDiffableDataSource<SectionModel, CellModel>?) -> SectionController? {
+        guard let sectionIdentifier = Self.sectionIdentifier(
+            dataSource: dataSource,
+            sectionIndex: sectionIndex
+        ) else { return nil }
+        
+        return self.sectionController(for: sectionIdentifier)
+    }
 
     private func sectionController(for sectionModel: SectionModel) -> SectionController {
         if let controller = self.sectionControllerMap[sectionModel.hashValue] {
