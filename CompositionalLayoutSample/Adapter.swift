@@ -99,13 +99,13 @@ class Adapter: NSObject {
         return self.sectionController(for: sectionIdentifier)
     }
 
-    private func sectionController(for sectionModel: SectionModel) -> SectionController {
+    private func sectionController(for sectionModel: SectionModel) -> SectionController? {
         if let controller = self.sectionControllerMap[sectionModel.hashValue] {
             return controller
         }
 
         guard let dataSource = self.dataSource else {
-            fatalError("Need a set of AdapterDataSource")
+            return nil
         }
 
         let controller = dataSource.adapter(self, sectionControllerFor: sectionModel)
