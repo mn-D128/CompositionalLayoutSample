@@ -22,9 +22,13 @@ class Adapter: NSObject {
             
             let dataSource = UICollectionViewDiffableDataSource<SectionModel, CellModel>(
                 collectionView: newCollectionView,
-                cellProvider: { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: CellModel) -> UICollectionViewCell? in
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: itemIdentifier.reuseCellIdentifier, for: indexPath)
-                    return cell
+                cellProvider: { [weak self] (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: CellModel) -> UICollectionViewCell? in
+                    let controller = self?.sectionController(
+                        at: indexPath.section,
+                        dataSource: collectionView.dataSource as? UICollectionViewDiffableDataSource<SectionModel, CellModel>
+                    )
+                    
+                    return controller?.cellForItem(at: indexPath.item)
                 }
             )
 
@@ -109,6 +113,8 @@ class Adapter: NSObject {
         }
 
         let controller = dataSource.adapter(self, sectionControllerFor: sectionModel)
+        controller.collectionContext = self
+
         self.sectionControllerMap[sectionModel.hashValue] = controller
         return controller
     }
@@ -124,5 +130,44 @@ class Adapter: NSObject {
         }
         
         return sectionIdentifiers[sectionIndex]
+    }
+}
+
+// MARK: - CollectionContext
+
+extension Adapter: CollectionContext {
+    func dequeueReusableCell(
+        withReuseIdentifier reuseIdentifier: String,
+        forSectionController sectionController: SectionController,
+        at index: Int
+    ) -> UICollectionViewCell? {
+        guard let hashValue = self.sectionControllerMap.first(where: { (_, value) in value == sectionController })?.key,
+              let dataSource = self.collectionView?.dataSource as? UICollectionViewDiffableDataSource<SectionModel, CellModel>,
+              let section = dataSource.snapshot().sectionIdentifiers.firstIndex(where: { $0.hashValue == hashValue }) else {
+            return nil
+        }
+        
+        return self.collectionView?.dequeueReusableCell(
+            withReuseIdentifier: reuseIdentifier,
+            for: IndexPath(item: index, section: section)
+        )
+    }
+}
+
+// MARK: - 
+
+class SectionController: NSObject {
+    fileprivate(set) weak var collectionContext: CollectionContext?
+
+    func layoutSection(layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? {
+        nil
+    }
+
+    func cellForItem(at index: Int) -> UICollectionViewCell {
+        fatalError("Need to override cellForItem.")
+    }
+
+    func reusableSupplementaryViewIdentifier(elementKind: String) -> String? {
+        nil
     }
 }

@@ -51,6 +51,18 @@ class BannerSectionController: SectionController {
 
         return section
     }
+    
+    override func cellForItem(at index: Int) -> UICollectionViewCell {
+        guard let cell = self.collectionContext?.dequeueReusableCell(
+            withReuseIdentifier: String(describing: SquareCell.self.classForCoder()),
+            forSectionController: self,
+            at: index
+        ) else {
+            fatalError("cell")
+        }
+
+        return cell
+    }
 
     override func reusableSupplementaryViewIdentifier(elementKind: String) -> String? {
         guard elementKind == UICollectionView.elementKindSectionFooter else { return nil }

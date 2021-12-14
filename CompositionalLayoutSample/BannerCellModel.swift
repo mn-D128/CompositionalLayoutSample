@@ -7,10 +7,4 @@
 
 import Foundation
 
-class BannerCellModel: CellModel {
-    // MARK: - CellModel
-
-    override var reuseCellIdentifier: String {
-        String(describing: SquareCell.self.classForCoder())
-    }
-}
+class BannerCellModel: CellModel {}

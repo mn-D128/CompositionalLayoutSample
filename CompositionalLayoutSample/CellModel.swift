@@ -7,6 +7,4 @@
 
 import Foundation
 
-class CellModel: NSObject {
-    var reuseCellIdentifier: String { "" }
-}
+class CellModel: NSObject {}

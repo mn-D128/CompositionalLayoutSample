@@ -48,4 +48,16 @@ class SquareSectionController: SectionController {
         section.contentInsets = contentInsets
         return section
     }
+
+    override func cellForItem(at index: Int) -> UICollectionViewCell {
+        guard let cell = self.collectionContext?.dequeueReusableCell(
+            withReuseIdentifier: String(describing: SquareCell.self.classForCoder()),
+            forSectionController: self,
+            at: index
+        ) else {
+            fatalError("cell")
+        }
+
+        return cell
+    }
 }
